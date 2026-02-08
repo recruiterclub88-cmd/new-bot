@@ -3,18 +3,21 @@ import { NextResponse } from 'next/server';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-    const envCheck = {
-        nodeEnv: process.env.NODE_ENV,
-        vercel: process.env.VERCEL,
-        vercelEnv: process.env.VERCEL_ENV,
-        hasSupabaseUrl: !!process.env.SUPABASE_URL,
-        hasSupabaseKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
-        supabaseUrlPrefix: process.env.SUPABASE_URL?.substring(0, 30) || 'NOT_SET',
-        allEnvKeysCount: Object.keys(process.env).length,
-        supabaseRelatedKeys: Object.keys(process.env).filter(k =>
-            k.toLowerCase().includes('supabase')
-        ),
-    };
+  const envVars = Object.keys(process.env).map(key => ({
+    key: key,
+    length: key.length,
+    codes: key.split('').map(c => c.charCodeAt(0)),
+    valueExists: !!process.env[key],
+    valueLength: process.env[key]?.length || 0,
+    // Show first 5 chars of value for verification (safe for debug)
+    preview: process.env[key] ? process.env[key]?.substring(0, 5) + '...' : 'undefined'
+  }));
 
-    return NextResponse.json(envCheck);
+  const supabaseVars = envVars.filter(v => v.key.toLowerCase().includes('supabase'));
+
+  return NextResponse.json({
+    message: 'Environment Debug',
+    supabaseCheck: supabaseVars,
+    allKeys: envVars.map(v => v.key).sort()
+  });
 }

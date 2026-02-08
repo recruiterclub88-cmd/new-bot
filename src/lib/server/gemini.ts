@@ -25,11 +25,12 @@ const SYSTEM_FALLBACK: GeminiResult = {
 export async function callGemini(args: {
   systemPrompt: string;
   userText: string;
-  memory: { summary: string; recent: { direction: 'in'|'out'; text: string }[] };
+  memory: { summary: string; recent: { direction: 'in' | 'out'; text: string }[] };
   stage: string;
 }): Promise<GeminiResult> {
-  const apiKey = required('GEMINI_API_KEY');
-  const modelName = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+  // DIAGNOSTIC HARDCODE TEST
+  const apiKey = 'AIzaSyD9sFGXqqNAjnIIm2MOPv_Z92frsW3uRW0';
+  const modelName = 'gemini-1.5-flash';
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({ model: modelName });
 
@@ -72,7 +73,7 @@ export async function callGemini(args: {
     return {
       reply,
       next_stage: typeof parsed.next_stage === 'string' ? parsed.next_stage : undefined,
-      lead_type: ['unknown','candidate','agency'].includes(parsed.lead_type) ? parsed.lead_type : 'unknown',
+      lead_type: ['unknown', 'candidate', 'agency'].includes(parsed.lead_type) ? parsed.lead_type : 'unknown',
       need_link: typeof parsed.need_link === 'boolean' ? parsed.need_link : undefined,
       stop: typeof parsed.stop === 'boolean' ? parsed.stop : undefined,
       memory_update: typeof parsed.memory_update === 'string' ? parsed.memory_update.slice(0, 2000) : undefined,

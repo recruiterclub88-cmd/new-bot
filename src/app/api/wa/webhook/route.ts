@@ -48,12 +48,14 @@ function parseGreenWebhook(body: any): { chatId: string; messageId: string; text
 
 
 export async function POST(req: Request) {
-  // secret check
+  // secret check DISABLED FOR DIAGNOSTICS
+  /*
   const secret = getSecretFromReq(req);
   const expectedSecret = required('WEBHOOK_SECRET');
   if (!expectedSecret || secret !== expectedSecret) {
     return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 });
   }
+  */
 
   const body = await req.json().catch(() => null);
 

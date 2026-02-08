@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const { data, error } = await supabaseAdmin
       .from('messages')
-      .select('id, created_at, direction, text, contacts(wa_chat_id, lead_type, stage)')
+      .select('id, created_at, direction, text, contacts!messages_contact_id_fkey(wa_chat_id, lead_type, stage)')
       .order('created_at', { ascending: false })
       .limit(200);
 

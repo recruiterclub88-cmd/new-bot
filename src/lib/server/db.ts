@@ -11,8 +11,9 @@ export function getSupabaseAdmin() {
   );
 
   // Отримуємо змінні з process.env
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  // DIAGNOSTIC HARDCODE TEST
+  const supabaseUrl = 'https://zrctubjaqyyhtiumdtau.supabase.co';
+  const supabaseKey = 'sb_secret_mVTgwJkcXOWrFC9KhqNCcg_WLVf1nVA';
 
   // Детальне логування для діагностики
   console.log('[Supabase Init] Environment check:', {
